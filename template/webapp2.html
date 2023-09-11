@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="static/stylesheet.css" />
+  <head>
+    <title>Image Processing</title>
+  </head>
+  <body style="text-align: center">
+    <h1>White Blood Cell Detector</h1>
+
+    <form id="upload-form" enctype="multipart/form-data">
+      <input
+        id="uploadButton"
+        type="file"
+        accept="image/*"
+        name="image"
+        onchange="handlePhotoUpload(event)"
+      />
+      <button id="processButton" type="submit">Upload and Process</button>
+    </form>
+
+    <div id="photoContainer"></div>
+
+    <script>
+      async function handlePhotoUpload(event) {
+        const file = event.target.files[0];
+
+        // Check if a file was selected
+        if (file) {
+          const reader = new FileReader();
+
+          // Read the uploaded image file and create an image element to display it
+          reader.onload = function (e) {
+            const imgSrc = e.target.result;
+            const imgElement = document.createElement("img");
+            imgElement.src = imgSrc;
+
+            // Get the container element and add the image to it
+            const container = document.getElementById("photoContainer");
+            container.innerHTML = "";
+            container.appendChild(imgElement);
+          };
+
+          reader.readAsDataURL(file);
+        }
+      }
+
+      document
+        .getElementById("upload-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const formData = new FormData(this);
+          const response = await fetch("/process_image", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await response.json();
+          const processedImgElement = document.createElement("img");
+          processedImgElement.src = data.processed_image_url;
+
+          const container = document.getElementById("photoContainer");
+          container.innerHTML = ""; // Clear existing content
+          container.appendChild(processedImgElement);
+        });
+    </script>
+  </body>
+</html>

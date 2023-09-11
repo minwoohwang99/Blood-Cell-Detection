@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="stylesheet.css" />
+  <heading>
+    <title>YOOO</title>
+  </heading>
+  <body style="text-align: center">
+    <h1>White Blood Cell Detector</h1>
+
+    <div id="photoContainer"></div>
+
+    <!--Upload file button-->
+    <input 
+      type="file"
+      id="photoUploadInput"
+      accept="image/*"
+      onchange="handlePhotoUpload(event)"
+    />
+
+    <script>
+      function handlePhotoUpload(event) {
+        const file = event.target.files[0];
+
+        // Check if a file was selected
+        if (file) {
+          const reader = new FileReader();
+
+          // Read the uploaded image file and create an image element to display it
+          reader.onload = function (e) {
+            const imgSrc = e.target.result;
+            const imgElement = document.createElement("img");
+            imgElement.src = imgSrc;
+
+            // Get the container element and add the image to it
+            const container = document.getElementById("photoContainer");
+            container.innerHTML = ""; // Clear any existing content inside the container
+            container.appendChild(imgElement);
+          };
+
+          // Read the image file as a data URL
+          reader.readAsDataURL(file);
+        }
+      }
+    </script>
+  </body>
+</html>
