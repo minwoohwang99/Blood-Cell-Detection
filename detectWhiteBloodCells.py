@@ -1,32 +1,8 @@
-from flask import Flask, render_template, request, send_file, jsonify
 import numpy as np
 import cv2
 import os
 
-#app = Flask(__name__)
-#@app.route('/process_image', methods=['POST'])
-
-#def processImage(image_path):
-#read og cells image
-og_img = cv2.imread("static/images/trying this.png") 
-
-'''def enhance_colors(image, channel_weights):
-    # Split the image into color channels
-    b, g, r = cv2.split(image)
-
-    # Apply color channel weights
-    b = cv2.multiply(b, channel_weights[0])
-    g = cv2.multiply(g, channel_weights[1])
-    r = cv2.multiply(r, channel_weights[2])
-
-    # Merge the enhanced channels back together
-    enhanced_image = cv2.merge((b, g, r))
-    
-    return enhanced_image
-
-channel_weights = [1.0, 1.0, 1.0]
-
-blue_enhanced = enhance_colors(og_img, channel_weights)'''
+og_img = cv2.imread("Neutrophil.jpg") 
 
 #convert og image into gray
 gray_img = cv2.cvtColor(og_img, cv2.COLOR_BGR2GRAY) 
@@ -35,9 +11,9 @@ gray_img = cv2.cvtColor(og_img, cv2.COLOR_BGR2GRAY)
 medianBlur_img = cv2.medianBlur(gray_img, 5) 
 
 #contrast stretching parameters
-r1 = 50
+r1 = 25
 s1 = 0
-r2 = 100
+r2 = 150
 s2 = 255
 
 #function to contrast stretch each pixel
@@ -89,7 +65,4 @@ cv2.imshow("Contrast Stretch", contrastStretch_img)
 cv2.waitKey(0)
 cv2.imshow('Contour Image', contour_img)
 cv2.waitKey(0)
-#return jsonify({"processed_image_url": "/static/processedImage.jpg"})
 
-#if __name__ == '__main__':
-#    app.run(debug=True)
