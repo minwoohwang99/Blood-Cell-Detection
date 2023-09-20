@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import os
 
-og_img = cv2.imread("Neutrophil.jpg") 
+og_img = cv2.imread("static/images/evenmorecells.jpg") 
 
 #convert og image into gray
 gray_img = cv2.cvtColor(og_img, cv2.COLOR_BGR2GRAY) 
